@@ -1,0 +1,6 @@
+@LelangService_HostAddress = http://localhost:5134
+
+GET {{LelangService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
