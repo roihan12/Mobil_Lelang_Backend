@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -18,7 +17,7 @@ namespace LelangService.Data.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ReservePrice = table.Column<int>(type: "integer", nullable: false),
                     Seller = table.Column<string>(type: "text", nullable: false),
-                    Winner = table.Column<string>(type: "text", nullable: false),
+                    Winner = table.Column<string>(type: "text", nullable: true),
                     SoldAmount = table.Column<int>(type: "integer", nullable: true),
                     CurrentHighBid = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
