@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using LelangService.Data;
 using LelangService.DTOs;
 using LelangService.Entities;
@@ -21,11 +22,20 @@ namespace LelangService.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<LelangDto>>> GetLelangs()
+        public async Task<ActionResult<List<LelangDto>>> GetLelangs(string date)
         {
-            var lelangs = await _context.lelangs.Include(x => x.Item).OrderBy(x => x.Item.Make).ToListAsync();
+            var query = _context.lelangs.OrderBy(x => x.Item.Make).AsQueryable();
 
-            return _mapper.Map<List<LelangDto>>(lelangs);
+            if (!string.IsNullOrEmpty(date))
+            {
+
+                query = query.Where(x => x.UpdatedAt.CompareTo(DateTime.Parse(date).ToUniversalTime()) > 0);
+
+            }
+
+
+
+            return await query.ProjectTo<LelangDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         [HttpGet("{id}")]

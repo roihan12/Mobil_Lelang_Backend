@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Entities;
 using SearchService.Models;
-using System.Text.Json;
+using SearchService.Services;
 
 namespace SearchService.Data
 {
@@ -19,23 +19,15 @@ namespace SearchService.Data
 
             var count = await DB.CountAsync<Item>();
 
-            if (count == 0)
-            {
-                Console.WriteLine("Data belum ada, melakukan inisialisasi...");
-                var itemData = await File.ReadAllTextAsync("Data/lelang.json");
+            using var scope = app.Services.CreateScope();
 
+            var httpClient = scope.ServiceProvider.GetRequiredService<AuctionSvcHttpClient>();
 
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
+            var items = await httpClient.GetItemForSearchDb();
 
-                var items = JsonSerializer.Deserialize<List<Item>>(itemData, options);
+            Console.WriteLine(items.Count + "Returned from the lelang service");
 
-
-                await DB.SaveAsync(items);
-
-            }
+            if (items.Count > 0) await DB.SaveAsync(items);
 
         }
     }
