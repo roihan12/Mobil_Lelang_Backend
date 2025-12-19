@@ -1,4 +1,5 @@
-﻿using LelangService.Data;
+﻿using LelangService.Consumers;
+using LelangService.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,10 @@ builder.Services.AddMassTransit(x =>
         o.UsePostgres();
         o.UseBusOutbox();
     });
+
+    x.AddConsumersFromNamespaceContaining<LelangCreatedFaultConsumer>();
+
+    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("lelang", false));
 
     x.UsingRabbitMq((context, cfg) =>
     {

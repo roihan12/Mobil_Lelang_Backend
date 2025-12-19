@@ -63,6 +63,7 @@ namespace LelangService.Controllers
             lelang.UpdatedAt = DateTime.UtcNow;
 
 
+
             _context.lelangs.Add(lelang);
 
             var newLelang = _mapper.Map<LelangDto>(lelang);
@@ -97,6 +98,8 @@ namespace LelangService.Controllers
             lelang.Item.Color = lelangDto.Color ?? lelang.Item.Color;
             lelang.Item.Milage = lelangDto.Milage ?? lelang.Item.Milage;
 
+            await _publishEndpoint.Publish(_mapper.Map<LelangUpdated>(lelang));
+
             var result = await _context.SaveChangesAsync() > 0;
 
             if (result) return Ok();
@@ -116,6 +119,12 @@ namespace LelangService.Controllers
             //TODO: check username == seller
 
             _context.lelangs.Remove(lelang);
+
+            await _publishEndpoint.Publish<LelangDeleted>(new
+            {
+                Id = lelang.Id.ToString()
+            });
+
             var result = await _context.SaveChangesAsync() > 0;
             if (result) return Ok();
             return BadRequest("Could not delete lelang");

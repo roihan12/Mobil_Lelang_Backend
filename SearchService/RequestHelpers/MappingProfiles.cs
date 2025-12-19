@@ -9,6 +9,7 @@ namespace SearchService.RequestHelpers
         public MappingProfiles()
         {
             CreateMap<LelangCreated, Item>();
+            CreateMap<LelangUpdated, Item>();
         }
 
     }

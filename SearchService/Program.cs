@@ -19,6 +19,7 @@ builder.Services.AddMassTransit(x =>
 {
 
     x.AddConsumersFromNamespaceContaining<LelangCreatedConsumer>();
+    x.AddConsumersFromNamespaceContaining<LelangUpdatedConsumer>();
 
     x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("search", false));
 

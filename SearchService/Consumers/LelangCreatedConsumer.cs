@@ -21,6 +21,9 @@ namespace SearchService.Consumers
 
             var item = _mapper.Map<Item>(context.Message);
 
+            if (item.Model == "foo") throw new ArgumentException("Cannot sell cars  with name foo");
+
+
             await item.SaveAsync();
         }
     }

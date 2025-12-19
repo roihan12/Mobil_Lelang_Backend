@@ -41,6 +41,8 @@ namespace SearchService.Controllers
                 query = query.Match(x => x.Seller == searchParams.Seller);
             }
 
+
+
             if (!string.IsNullOrEmpty(searchParams.Winner))
             {
                 query = query.Match(x => x.Winner == searchParams.Winner);

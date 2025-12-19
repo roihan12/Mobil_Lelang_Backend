@@ -16,6 +16,8 @@ namespace LelangService.RequestHelpers
 
             CreateMap<CreateLelangDto, Item>();
             CreateMap<LelangDto, LelangCreated>();
+            CreateMap<Lelang, LelangUpdated>().IncludeMembers(a => a.Item);
+            CreateMap<Item, LelangUpdated>();
 
         }
     }
