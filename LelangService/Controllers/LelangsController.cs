@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Contracts;
 using LelangService.Data;
 using LelangService.DTOs;
 using LelangService.Entities;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,11 +16,13 @@ namespace LelangService.Controllers
     {
         private readonly LelangDbContext _context;
         private readonly IMapper _mapper;
+        private IPublishEndpoint _publishEndpoint;
 
-        public LelangsController(LelangDbContext context, IMapper mapper)
+        public LelangsController(LelangDbContext context, IMapper mapper, IPublishEndpoint publishEndpoint)
         {
             _context = context;
             _mapper = mapper;
+            _publishEndpoint = publishEndpoint;
         }
 
         [HttpGet]
@@ -57,15 +61,24 @@ namespace LelangService.Controllers
             lelang.Seller = "TestSeller";
             lelang.CreatedAt = DateTime.UtcNow;
             lelang.UpdatedAt = DateTime.UtcNow;
+
+
             _context.lelangs.Add(lelang);
+
+            var newLelang = _mapper.Map<LelangDto>(lelang);
+
+            await _publishEndpoint.Publish(_mapper.Map<LelangCreated>(newLelang));
+
             var result = await _context.SaveChangesAsync() > 0;
+
+
+
             if (!result)
             {
                 return BadRequest("Could not create lelang");
             }
 
-            var createdLelangDto = _mapper.Map<LelangDto>(lelang);
-            return CreatedAtAction(nameof(GetLelang), new { id = lelang.Id }, createdLelangDto);
+            return CreatedAtAction(nameof(GetLelang), new { id = lelang.Id }, newLelang);
         }
 
         [HttpPut("{id}")]

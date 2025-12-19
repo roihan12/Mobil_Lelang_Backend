@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Contracts;
 using LelangService.DTOs;
 using LelangService.Entities;
 
@@ -14,6 +15,7 @@ namespace LelangService.RequestHelpers
             CreateMap<CreateLelangDto, Lelang>().ForMember(dest => dest.Item, opt => opt.MapFrom(src => src));
 
             CreateMap<CreateLelangDto, Item>();
+            CreateMap<LelangDto, LelangCreated>();
 
         }
     }
