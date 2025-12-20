@@ -5,6 +5,7 @@ using LelangService.Data;
 using LelangService.DTOs;
 using LelangService.Entities;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -53,12 +54,13 @@ namespace LelangService.Controllers
             return _mapper.Map<LelangDto>(lelang);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<LelangDto>> CreateLelang(CreateLelangDto lelangDto)
         {
             var lelang = _mapper.Map<Lelang>(lelangDto);
             lelang.Id = Guid.NewGuid();
-            lelang.Seller = "TestSeller";
+            lelang.Seller = User.Identity.Name;
             lelang.CreatedAt = DateTime.UtcNow;
             lelang.UpdatedAt = DateTime.UtcNow;
 
@@ -82,6 +84,8 @@ namespace LelangService.Controllers
             return CreatedAtAction(nameof(GetLelang), new { id = lelang.Id }, newLelang);
         }
 
+
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult<LelangDto>> UpdateLelang(Guid id, UpdateLelangDto lelangDto)
         {
@@ -90,7 +94,11 @@ namespace LelangService.Controllers
             {
                 return NotFound();
             }
-            //TODO: check username == seller
+
+            if (lelang.Seller != User.Identity.Name)
+            {
+                return Forbid();
+            }
 
             lelang.Item.Make = lelangDto.Make ?? lelang.Item.Make;
             lelang.Item.Model = lelangDto.Model ?? lelang.Item.Model;
@@ -108,6 +116,7 @@ namespace LelangService.Controllers
 
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteLelang(Guid id)
         {
@@ -116,7 +125,11 @@ namespace LelangService.Controllers
             {
                 return NotFound();
             }
-            //TODO: check username == seller
+
+            if (lelang.Seller != User.Identity.Name)
+            {
+                return Forbid();
+            }
 
             _context.lelangs.Remove(lelang);
 

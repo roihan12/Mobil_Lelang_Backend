@@ -47,7 +47,7 @@ namespace IdentityService.Pages.Account.Register
             {
                 var user = new ApplicationUser
                 {
-                    UserName = Input.Email,
+                    UserName = Input.Username,
                     Email = Input.Email,
                     EmailConfirmed = true
                 };
@@ -58,7 +58,6 @@ namespace IdentityService.Pages.Account.Register
                                 new Claim(JwtClaimTypes.Name, Input.FullName),
                             });
                     RegisterSuccessful = true;
-                    return RedirectToPage("/Account/Login");
                 }
                 foreach (var error in result.Errors)
                 {
