@@ -31,6 +31,19 @@ namespace IdentityService
                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword
 
 
+               },
+               new Client
+               {
+                   ClientId = "nextApp",
+                   ClientName = "NextApp",
+                   AllowedScopes = {"openid", "profile", "lemobilApp" },
+                   RedirectUris = {"http://localhost:3000/api/auth/callback/id-server" },
+                   ClientSecrets= new [] { new Secret("secret".Sha256()) },
+                   AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+                   RequirePkce = false,
+                   AllowOfflineAccess = true,
+                   AccessTokenLifetime = 3600*24*30
+
                }
             };
     }
