@@ -1,35 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Auction } from "@/types";
-import { FiEdit, FiTrash } from "react-icons/fi";
 import AuctionCountdown from "./AuctionCountdown";
-import CardImage from "./CardImage";
+import CardImage from "../components/CardImage";
 
-interface CarCardProps {
+interface AuctionCardProps {
   car: Auction;
-  onEdit?: (car?: Auction) => void;
-  onDelete?: (id: string) => Promise<void>;
-  isDeleting?: boolean;
-  showActions?: boolean;
 }
 
-const CarCard = ({
-  car,
-  onEdit,
-  onDelete,
-  isDeleting = false,
-  showActions = true,
-}: CarCardProps) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    // Check authentication status from localStorage or session
-    const token =
-      typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
-    setIsAuthenticated(!!token);
-  }, []);
-
+const AuctionCard = ({ car }: AuctionCardProps) => {
   return (
     <a href="">
       <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group">
@@ -88,31 +67,10 @@ const CarCard = ({
           <div className="mb-4">
             <AuctionCountdown endDate={car.endedAt} />
           </div>
-
-          {/* Action Buttons - Only show if authenticated */}
-          {showActions && isAuthenticated && (
-            <div className="flex gap-2">
-              <button
-                onClick={() => onEdit?.(car)}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 font-semibold transition-colors"
-              >
-                <FiEdit size={16} />
-                Edit
-              </button>
-              <button
-                onClick={() => onDelete?.(car.id)}
-                disabled={isDeleting}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 font-semibold transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-              >
-                <FiTrash size={16} />
-                {isDeleting ? "Deleting..." : "Delete"}
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </a>
   );
 };
 
-export default CarCard;
+export default AuctionCard;

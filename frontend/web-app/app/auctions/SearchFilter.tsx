@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FiSearch, FiFilter } from "react-icons/fi";
 
-interface SearchFilterProps {
+type SearchFilterProps = {
   onSearch: (search: string) => void;
   onFilterChange: (filters: FilterOptions) => void;
   isLoading?: boolean;

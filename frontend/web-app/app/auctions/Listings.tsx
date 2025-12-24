@@ -1,23 +1,29 @@
-import { fetchListings } from "@/lib/api";
-import CarCard from "@/app/components/CarCard";
+"use client";
+
+import { fetchListings } from "@/app/action/auctionActions";
+import AuctionCard from "@/app/auctions/AuctionCard";
 import { Auction, PagedResult } from "@/types";
 import AppPagination from "../components/AppPagination";
+import { useEffect, useState } from "react";
+import FilterPageSize from "./FilterPageSize";
 
-const Listings = async () => {
-  let listings: PagedResult<Auction> = {
-    results: [],
-    pageCount: 0,
-    totalCount: 0,
-  };
-  let error: string | null = null;
+const Listings = () => {
+  const [auctions, setAuctions] = useState<Auction[]>([]);
+  const [pageCount, setPageCount] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [error, setError] = useState<string | null>(null);
+  const [pageSize, setPageSize] = useState(6);
 
-  try {
-    const data = await fetchListings();
-    listings = data || [];
-  } catch (err) {
-    error = err instanceof Error ? err.message : "An error occurred";
-    console.error("Error fetching listings:", err);
-  }
+  useEffect(() => {
+    fetchListings(pageNumber, pageSize)
+      .then((data: PagedResult<Auction>) => {
+        setAuctions(data.results || []);
+        setPageCount(data.pageCount);
+      })
+      .catch((err: Error) => {
+        setError(err.message);
+      });
+  }, [pageNumber, pageSize]);
 
   if (error) {
     return (
@@ -29,21 +35,26 @@ const Listings = async () => {
 
   return (
     <>
+      <FilterPageSize pageSize={pageSize} onPageSizeChange={setPageSize} />
       <div className="p-6">
         <h1 className="text-4xl font-bold mb-8">Auction Listings</h1>
-        {listings.results.length === 0 ? (
+        {auctions.length === 0 ? (
           <p className="text-gray-600 text-lg">No listings available</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {listings.results.map((listing: Auction) => (
-              <CarCard key={listing.id} car={listing} showActions={false} />
+            {auctions.map((listing: Auction) => (
+              <AuctionCard key={listing.id} car={listing} />
             ))}
           </div>
         )}
       </div>
 
       <div className="flex justify-center mt-4">
-        <AppPagination currentPage={1} pageCount={listings.pageCount} />
+        <AppPagination
+          currentPage={pageNumber}
+          pageCount={pageCount}
+          onPageChange={setPageNumber}
+        />
       </div>
     </>
   );
