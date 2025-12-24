@@ -1,26 +1,6 @@
+import { Auction, PagedResult } from "@/types";
+
 const API_BASE_URL = "http://localhost:6001";
-
-// Simulate delay untuk real experience
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-export interface Auction {
-  id: string;
-  make: string;
-  model: string;
-  year: number;
-  color: string;
-  milage: number;
-  imageUrl: string;
-  reservePrice: number;
-  seller: string;
-  winner: string | null;
-  soldAmount: number;
-  currentHighBid: number;
-  createdAt: string;
-  updatedAt: string;
-  endedAt: string;
-  status: string;
-}
 
 export interface FormData {
   make: string;
@@ -35,32 +15,9 @@ export interface FormData {
 }
 
 // Fetch all listings
-export async function fetchListings(
-  searchQuery?: string,
-  filters?: any
-): Promise<Auction[]> {
+export async function fetchListings(): Promise<PagedResult<Auction>> {
   try {
-    const params = new URLSearchParams();
-
-    if (searchQuery) {
-      params.append("search", searchQuery);
-    }
-
-    if (filters) {
-      if (filters.minPrice) {
-        params.append("minPrice", filters.minPrice);
-      }
-      if (filters.maxPrice) {
-        params.append("maxPrice", filters.maxPrice);
-      }
-      if (filters.year) {
-        params.append("year", filters.year);
-      }
-    }
-
-    const url = `${API_BASE_URL}/search${
-      params.toString() ? "?" + params.toString() : ""
-    }`;
+    const url = `${API_BASE_URL}/search?pageSize=6`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -69,7 +26,7 @@ export async function fetchListings(
 
     const data = await response.json();
 
-    return data.results || [];
+    return data;
   } catch (error) {
     console.error("Failed to fetch listings:", error);
     throw error;

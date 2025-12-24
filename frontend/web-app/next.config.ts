@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import withFlowbiteReact from "flowbite-react/plugin/nextjs";
 
 const nextConfig: NextConfig = {
   logging: {
@@ -7,8 +8,11 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    domains: ["images.unsplash.com", "cdn.pixabay.com"],
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "cdn.pixabay.com" },
+    ],
   },
 };
 
-export default nextConfig;
+export default withFlowbiteReact(nextConfig);

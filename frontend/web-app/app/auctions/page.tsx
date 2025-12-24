@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useEffect } from "react";
 import {
-  Auction,
   fetchListings,
   createListing,
   updateListing,
@@ -12,6 +11,7 @@ import CarCard from "@/app/components/CarCard";
 import CarFormModal from "@/app/components/CarFormModal";
 import SearchFilter, { FilterOptions } from "@/app/components/SearchFilter";
 import { FiPlus, FiLoader } from "react-icons/fi";
+import { Auction } from "@/types";
 
 interface FormData {
   make: string;
@@ -42,8 +42,8 @@ const ListingsPage = () => {
     try {
       setIsLoading(true);
       setError(null);
-      const data = await fetchListings(searchTerm || undefined, filters);
-      setCars(data || []);
+      const data = await fetchListings();
+      setCars(data.results || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load cars");
     } finally {

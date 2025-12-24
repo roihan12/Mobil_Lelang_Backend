@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Auction } from "@/lib/api";
+import { Auction } from "@/types";
 import { FiX } from "react-icons/fi";
 
 interface FormData {

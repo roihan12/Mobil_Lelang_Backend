@@ -1,1 +1,25 @@
-export type 
+
+export type PagedResult<T> = {
+   results: T[];
+   pageCount: number;
+   totalCount: number;
+};
+
+export type Auction = {
+  reservePrice?: number;
+  seller: string;
+  winner?: string;
+  soldAmount?: number;
+  currentHighBid?: number;
+  createdAt: string;
+  updatedAt: string;
+  endedAt: string;
+  status: string;
+  make: string;
+  model: string;
+  year: number;
+  color: string;
+  milage: number;
+  imageUrl: string;
+  id: string;
+}

@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Auction } from "@/lib/api";
-import Image from "next/image";
+import { Auction } from "@/types";
 import { FiEdit, FiTrash } from "react-icons/fi";
 import AuctionCountdown from "./AuctionCountdown";
 import CardImage from "./CardImage";
@@ -59,7 +58,7 @@ const CarCard = ({
             <div className="flex justify-between">
               <span className="text-gray-600">Price:</span>
               <span className="font-bold text-blue-600">
-                Rp {car.reservePrice.toLocaleString()}
+                Rp {car.reservePrice?.toLocaleString()}
               </span>
             </div>
             <div className="flex justify-between">
