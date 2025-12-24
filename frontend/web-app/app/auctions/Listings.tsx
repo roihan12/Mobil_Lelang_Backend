@@ -18,6 +18,7 @@ const Listings = () => {
       pageSize: state.pageSize,
       searchTerm: state.searchTerm,
       orderBy: state.orderBy,
+      filterBy: state.filterBy,
     }))
   );
   const setParams = useParamsStore((state) => state.setParams);
