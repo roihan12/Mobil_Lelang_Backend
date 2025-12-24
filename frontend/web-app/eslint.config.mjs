@@ -16,7 +16,7 @@ const eslintConfig = defineConfig([
   {
     rules: {
       "@next/next/no-html-link-for-pages": "off",
-      "eslint@typescript-eslint/no-explicit-any": "off",
+      "eslint@typescript-eslint/no-explicit-any": "on",
     },
   },
 ]);
