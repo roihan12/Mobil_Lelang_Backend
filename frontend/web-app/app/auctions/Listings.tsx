@@ -5,7 +5,7 @@ import AuctionCard from "@/app/auctions/AuctionCard";
 import { Auction, PagedResult } from "@/types";
 import AppPagination from "../components/AppPagination";
 import { useEffect, useState } from "react";
-import FilterPageSize from "./FilterPageSize";
+import Filters from "./Filters";
 import qs from "query-string";
 import { useParamsStore } from "@/hooks/useParamsStore";
 import { useShallow } from "zustand/shallow";
@@ -17,6 +17,7 @@ const Listings = () => {
       pageNumber: state.pageNumber,
       pageSize: state.pageSize,
       searchTerm: state.searchTerm,
+      orderBy: state.orderBy,
     }))
   );
   const setParams = useParamsStore((state) => state.setParams);
@@ -51,7 +52,7 @@ const Listings = () => {
 
   return (
     <>
-      <FilterPageSize />
+      <Filters />
       <div className="p-6">
         <h1 className="text-4xl font-bold mb-8">Auction Listings</h1>
         {data && data.results.length === 0 ? (
