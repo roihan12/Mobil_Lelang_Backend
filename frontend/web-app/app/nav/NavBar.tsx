@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { AiOutlineCar } from "react-icons/ai";
+import Search from "./Search";
+import Logo from "./Logo";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,20 +22,10 @@ const NavBar = () => {
   ];
 
   return (
-    <header className="bg-linear-to-r from-sky-50 to-blue-50 shadow-md sticky top-0 z-50 w-full">
+    <header>
       <nav className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-linear-to-br from-sky-400 to-blue-500 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
-              <span className="text-white font-bold text-lg">
-                <AiOutlineCar size={30} />
-              </span>
-            </div>
-            <span className="text-xl font-bold text-gray-800 inline">
-              Lemobil
-            </span>
-          </Link>
+          <Logo />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
@@ -44,7 +36,7 @@ const NavBar = () => {
                 className="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative group"
               >
                 {link.name}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-sky-400 to-blue-500 group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300"></span>
               </Link>
             ))}
           </div>
@@ -54,7 +46,7 @@ const NavBar = () => {
             <button className="px-5 py-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors">
               Masuk
             </button>
-            <button className="px-5 py-2 bg-linear-to-r from-sky-400 to-blue-500 text-white font-semibold rounded-lg hover:shadow-lg hover:from-sky-500 hover:to-blue-600 transition-all duration-200">
+            <button className="px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200">
               Daftar
             </button>
           </div>
@@ -92,9 +84,16 @@ const NavBar = () => {
           </button>
         </div>
 
+        {/* Search Bar Below Navbar */}
+        <div className="py-4 border-t border-gray-200">
+          <div className="w-full md:w-2/3 lg:w-1/2 mx-auto">
+            <Search />
+          </div>
+        </div>
+
         {/* Mobile Navigation Menu */}
         {isOpen && (
-          <div className="md:hidden absolute left-0 right-0 top-16 bg-white border-t border-gray-200 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="md:hidden absolute left-0 right-0 top-[calc(4rem+60px)] bg-white border-t border-gray-200 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200">
             <div className="px-4 py-4 space-y-2">
               {navLinks.map((link) => (
                 <Link
@@ -110,7 +109,7 @@ const NavBar = () => {
                 <button className="w-full px-4 py-2 text-blue-600 font-semibold hover:bg-sky-50 rounded-lg transition-colors">
                   Masuk
                 </button>
-                <button className="w-full px-4 py-2 bg-linear-to-r from-sky-400 to-blue-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-200">
+                <button className="w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200">
                   Daftar
                 </button>
               </div>

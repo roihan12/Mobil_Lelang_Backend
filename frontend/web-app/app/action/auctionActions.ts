@@ -4,11 +4,10 @@ const API_BASE_URL = "http://localhost:6001";
 
 // Fetch all listings
 export async function fetchListings(
-  pageNumber: number,
-  pageSize: number
+  query: string
 ): Promise<PagedResult<Auction>> {
   try {
-    const url = `${API_BASE_URL}/search?pageSize=${pageSize}&pageNumber=${pageNumber}`;
+    const url = `${API_BASE_URL}/search${query}`;
     const response = await fetch(url);
 
     if (!response.ok) {
