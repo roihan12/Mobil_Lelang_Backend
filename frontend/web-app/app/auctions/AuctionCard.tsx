@@ -3,6 +3,7 @@
 import { Auction } from "@/types";
 import AuctionCountdown from "./AuctionCountdown";
 import CardImage from "../components/CardImage";
+import Link from "next/link";
 
 interface AuctionCardProps {
   car: Auction;
@@ -10,7 +11,7 @@ interface AuctionCardProps {
 
 const AuctionCard = ({ car }: AuctionCardProps) => {
   return (
-    <a href="">
+    <Link href={`/auctions/details/${car.id}`}>
       <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group">
         {/* Image Container */}
         <div className="relative h-48 bg-gray-200 overflow-hidden">
@@ -69,7 +70,7 @@ const AuctionCard = ({ car }: AuctionCardProps) => {
           </div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 };
 

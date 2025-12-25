@@ -10,7 +10,9 @@ export default function Heading({ title, subtitle, center }: Props) {
       <h2 className="text-3xl font-bold tracking-tight transition-colors first:mt-0">
         {title}
       </h2>
-      {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+      {subtitle && (
+        <p className="text-sm text-muted-foreground mt-2">{subtitle}</p>
+      )}
     </div>
   );
 }

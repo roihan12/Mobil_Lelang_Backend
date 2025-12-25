@@ -20,6 +20,8 @@ const Listings = () => {
       searchTerm: state.searchTerm,
       orderBy: state.orderBy,
       filterBy: state.filterBy,
+      seller: state.seller,
+      winner: state.winner,
     }))
   );
   const setParams = useParamsStore((state) => state.setParams);
@@ -55,28 +57,31 @@ const Listings = () => {
   return (
     <>
       <Filters />
-{data?.totalCount === 0 ? (
-  <EmptyFilter showReset/>
-  
-): ( <><div className="p-6">
-          <h1 className="text-4xl font-bold mb-8">Auction Listings</h1>
-          {data && data.results.length === 0 ? (
-            <p className="text-gray-600 text-lg">No listings available</p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {data?.results.map((listing: Auction) => (
-                <AuctionCard key={listing.id} car={listing} />
-              ))}
-            </div>
-          )}
-        </div><div className="flex justify-center mt-4">
+      {data?.totalCount === 0 ? (
+        <EmptyFilter showReset />
+      ) : (
+        <>
+          <div className="p-6">
+            <h1 className="text-4xl font-bold mb-8">Auction Listings</h1>
+            {data && data.results.length === 0 ? (
+              <p className="text-gray-600 text-lg">No listings available</p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {data?.results.map((listing: Auction) => (
+                  <AuctionCard key={listing.id} car={listing} />
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="flex justify-center mt-4">
             <AppPagination
               currentPage={params.pageNumber}
               pageCount={data?.pageCount || 1}
-              onPageChange={setPageNumber} />
-          </div></>) }
-
-     
+              onPageChange={setPageNumber}
+            />
+          </div>
+        </>
+      )}
     </>
   );
 };
