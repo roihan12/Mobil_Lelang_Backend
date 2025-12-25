@@ -9,6 +9,7 @@ import Filters from "./Filters";
 import qs from "query-string";
 import { useParamsStore } from "@/hooks/useParamsStore";
 import { useShallow } from "zustand/shallow";
+import EmptyFilter from "../components/EmptyFilter";
 
 const Listings = () => {
   const [data, setData] = useState<PagedResult<Auction>>();
@@ -54,26 +55,28 @@ const Listings = () => {
   return (
     <>
       <Filters />
-      <div className="p-6">
-        <h1 className="text-4xl font-bold mb-8">Auction Listings</h1>
-        {data && data.results.length === 0 ? (
-          <p className="text-gray-600 text-lg">No listings available</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data?.results.map((listing: Auction) => (
-              <AuctionCard key={listing.id} car={listing} />
-            ))}
-          </div>
-        )}
-      </div>
+{data?.totalCount === 0 ? (
+  <EmptyFilter showReset/>
+  
+): ( <><div className="p-6">
+          <h1 className="text-4xl font-bold mb-8">Auction Listings</h1>
+          {data && data.results.length === 0 ? (
+            <p className="text-gray-600 text-lg">No listings available</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {data?.results.map((listing: Auction) => (
+                <AuctionCard key={listing.id} car={listing} />
+              ))}
+            </div>
+          )}
+        </div><div className="flex justify-center mt-4">
+            <AppPagination
+              currentPage={params.pageNumber}
+              pageCount={data?.pageCount || 1}
+              onPageChange={setPageNumber} />
+          </div></>) }
 
-      <div className="flex justify-center mt-4">
-        <AppPagination
-          currentPage={params.pageNumber}
-          pageCount={data?.pageCount || 1}
-          onPageChange={setPageNumber}
-        />
-      </div>
+     
     </>
   );
 };

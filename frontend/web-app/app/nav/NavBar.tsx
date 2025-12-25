@@ -1,13 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { AiOutlineCar } from "react-icons/ai";
 import Search from "./Search";
 import Logo from "./Logo";
+import LoginButton from "./LoginButton";
+import { getCurrentUser } from "../action/authActions";
+import UserActions from "./UserActions";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userData = await getCurrentUser();
+      setUser(userData);
+      setLoading(false);
+    };
+    fetchUser();
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -43,12 +57,16 @@ const NavBar = () => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <button className="px-5 py-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors">
-              Masuk
-            </button>
-            <button className="px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200">
-              Daftar
-            </button>
+            {user ? (
+              <UserActions user={user} />
+            ) : (
+              <>
+                <LoginButton />
+                <button className="px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200">
+                  Daftar
+                </button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -93,7 +111,7 @@ const NavBar = () => {
 
         {/* Mobile Navigation Menu */}
         {isOpen && (
-          <div className="md:hidden absolute left-0 right-0 top-[calc(4rem+60px)] bg-white border-t border-gray-200 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="md:hidden absolute left-0 right-0 top-31 bg-white border-t border-gray-200 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200">
             <div className="px-4 py-4 space-y-2">
               {navLinks.map((link) => (
                 <Link
@@ -106,9 +124,7 @@ const NavBar = () => {
                 </Link>
               ))}
               <div className="pt-2 border-t border-gray-200 mt-2 space-y-2">
-                <button className="w-full px-4 py-2 text-blue-600 font-semibold hover:bg-sky-50 rounded-lg transition-colors">
-                  Masuk
-                </button>
+                <LoginButton />
                 <button className="w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200">
                   Daftar
                 </button>
