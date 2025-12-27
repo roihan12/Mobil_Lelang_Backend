@@ -1,5 +1,6 @@
 ﻿using LelangService.Consumers;
 using LelangService.Data;
+using LelangService.Services;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters.NameClaimType = "username";
     });
 
+builder.Services.AddGrpc();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -58,6 +61,7 @@ app.UseAuthorization();
 
 
 app.MapControllers();
+app.MapGrpcService<GrpcLelangService>();
 
 try
 {

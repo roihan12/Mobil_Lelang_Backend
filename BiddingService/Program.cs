@@ -29,6 +29,8 @@ builder.Services.AddMassTransit(x =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHostedService<CheckLelangFinished>();
+builder.Services.AddScoped<GrpcLelangClient>();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
