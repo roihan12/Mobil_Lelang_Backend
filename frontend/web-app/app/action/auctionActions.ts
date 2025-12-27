@@ -31,3 +31,15 @@ export async function updateAuctionTest(): Promise<{
 export async function createAuction(data: FieldValues) {
   return fetchWrapper.post(`auctions`, data);
 }
+
+export async function getDetailsViewData(id:string): Promise<Auction> {
+  return fetchWrapper.get(`auctions/${id}`);
+}
+
+export async function updateAuction(id: string, data: FieldValues) {
+  return fetchWrapper.put(`auctions/${id}`, data);
+}
+
+export async function deleteAuction(id: string) {
+  return fetchWrapper.del(`auctions/${id}`);
+}

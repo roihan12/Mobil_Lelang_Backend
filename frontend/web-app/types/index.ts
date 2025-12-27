@@ -1,12 +1,11 @@
-
 export type PagedResult<T> = {
-   results: T[];
-   pageCount: number;
-   totalCount: number;
+  results: T[];
+  pageCount: number;
+  totalCount: number;
 };
 
 export type Auction = {
-  reservePrice?: number;
+  reservePrice: number;
   seller: string;
   winner?: string;
   soldAmount?: number;
@@ -22,4 +21,4 @@ export type Auction = {
   milage: number;
   imageUrl: string;
   id: string;
-}
+};
