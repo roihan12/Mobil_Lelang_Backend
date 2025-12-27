@@ -17,7 +17,7 @@ namespace LelangService.Consumers
         {
             Console.WriteLine("Consuming lelang finished, " + context.Message.LelangId);
 
-            var lelang = await _context.lelangs.FindAsync(context.Message.LelangId);
+            var lelang = await _context.lelangs.FindAsync(Guid.Parse(context.Message.LelangId));
 
             if (context.Message.ItemSold)
             {

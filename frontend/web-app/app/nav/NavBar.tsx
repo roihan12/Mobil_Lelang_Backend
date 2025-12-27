@@ -36,33 +36,33 @@ const NavBar = () => {
   ];
 
   return (
-    <header>
-      <nav className="px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <header className="sticky top-0 z-50 bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 shadow-lg">
+      <nav className="px-3 sm:px-4 md:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-14 sm:h-16 md:h-18">
           <Logo />
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative group"
+                className="px-3 sm:px-4 py-2 text-white hover:text-blue-100 font-semibold transition-all duration-200 relative group text-sm sm:text-base"
               >
                 {link.name}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-1 bg-orange-400 group-hover:w-full transition-all duration-300 rounded-full"></span>
               </Link>
             ))}
           </div>
 
           {/* CTA Buttons */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2 sm:gap-3">
             {user ? (
               <UserActions user={user} />
             ) : (
               <>
                 <LoginButton />
-                <button className="px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200">
+                <button className="px-4 sm:px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 text-sm sm:text-base">
                   Daftar
                 </button>
               </>
@@ -72,7 +72,7 @@ const NavBar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-700 hover:bg-blue-100 transition-colors"
+            className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-white hover:bg-blue-700 transition-colors"
             aria-label="Toggle menu"
           >
             <svg
@@ -103,7 +103,7 @@ const NavBar = () => {
         </div>
 
         {/* Search Bar Below Navbar */}
-        <div className="py-4 border-t border-gray-200">
+        <div className="py-2 sm:py-3 md:py-4 border-t border-blue-400 hidden sm:block">
           <div className="w-full md:w-2/3 lg:w-1/2 mx-auto">
             <Search />
           </div>
@@ -111,21 +111,24 @@ const NavBar = () => {
 
         {/* Mobile Navigation Menu */}
         {isOpen && (
-          <div className="md:hidden absolute left-0 right-0 top-31 bg-white border-t border-gray-200 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200">
-            <div className="px-4 py-4 space-y-2">
+          <div className="lg:hidden absolute left-0 right-0 top-full bg-white border-t-4 border-orange-400 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className="px-3 sm:px-4 py-3 sm:py-4 space-y-2">
+              <div className="py-2 sm:py-3 md:py-4 mb-3 border-b border-gray-200">
+                <Search />
+              </div>
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="block px-4 py-3 text-gray-700 hover:bg-sky-50 hover:text-blue-600 font-medium rounded-lg transition-colors"
+                  className="block px-4 py-2 sm:py-3 text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 font-semibold rounded-lg transition-all duration-200 text-sm sm:text-base"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
                 </Link>
               ))}
-              <div className="pt-2 border-t border-gray-200 mt-2 space-y-2">
+              <div className="pt-3 border-t border-gray-200 mt-3 space-y-2">
                 <LoginButton />
-                <button className="w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200">
+                <button className="w-full px-4 py-2 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-bold rounded-lg hover:shadow-lg transition-all duration-200 text-sm sm:text-base">
                   Daftar
                 </button>
               </div>

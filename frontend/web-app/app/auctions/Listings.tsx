@@ -61,19 +61,23 @@ const Listings = () => {
         <EmptyFilter showReset />
       ) : (
         <>
-          <div className="p-6">
-            <h1 className="text-4xl font-bold mb-8">Auction Listings</h1>
+          <div className="px-2 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-blue-900 mb-6 sm:mb-8">
+              Lelang Mobil
+            </h1>
             {data && data.results.length === 0 ? (
-              <p className="text-gray-600 text-lg">No listings available</p>
+              <p className="text-gray-600 text-base sm:text-lg md:text-xl">
+                Tidak ada daftar tersedia
+              </p>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
                 {data?.results.map((listing: Auction) => (
                   <AuctionCard key={listing.id} car={listing} />
                 ))}
               </div>
             )}
           </div>
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center mt-6 sm:mt-8 md:mt-10">
             <AppPagination
               currentPage={params.pageNumber}
               pageCount={data?.pageCount || 1}

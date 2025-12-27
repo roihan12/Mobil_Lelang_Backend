@@ -20,34 +20,38 @@ export default async function Details({
 
   return (
     <>
-      <div className="flex justify-between">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col lg:flex-row justify-between gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8">
+        <div className="flex items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
           <Heading title={`${data.make} ${data.model}`} />
           {user?.username === data.seller && (
-            <>
+            <div className="flex gap-2 sm:gap-3 flex-wrap">
               <EditButton id={data.id} />
               <DeleteButton id={data.id} />
-            </>
+            </div>
           )}
         </div>
 
-        <div className="flex gap-3">
-          <h3 className="text-2xl font-semibold">Time Remaining :</h3>
-          <AuctionCountdown endDate={data.endedAt} />
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 items-start sm:items-center">
+          <h3 className="text-lg sm:text-2xl font-bold text-gray-700">
+            Sisa Waktu:
+          </h3>
+          <div className="w-full sm:w-auto">
+            <AuctionCountdown endDate={data.endedAt} />
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6 mt-3">
-        <div className="relative w-full bg-gray-200 aspect-16/10 rounded-lg overlfow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:mt-6">
+        <div className="lg:col-span-2 relative w-full h-64 sm:h-80 md:h-96 lg:h-full lg:min-h-[500px] bg-gray-300 rounded-2xl overflow-hidden border-2 border-gray-300 shadow-lg">
           <CardImage imageUrl={data.imageUrl} />
         </div>
-        <div className="border-2 rounded-lg p-2 bg-gray-200">
-          <Heading title="Bids" />
+        <div className="border-2 border-blue-200 rounded-2xl p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-purple-50 shadow-lg">
+          <Heading title="Penawaran" />
         </div>
       </div>
 
-      <div className="mt-3 grid grid-cols-1 rounded-lg">
-        <DetailedSpecs auction={data} />/
+      <div className="mt-6 sm:mt-8 grid grid-cols-1 rounded-2xl overflow-hidden shadow-xl">
+        <DetailedSpecs auction={data} />
       </div>
     </>
   );

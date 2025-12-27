@@ -36,26 +36,65 @@ export default function UserActions({ user }: Props) {
   }
 
   return (
-    <Dropdown inline label={`Welcome ${user.name}`} className="cursor-pointer">
-      <DropdownItem icon={HiUser} onClick={setSeller}>
-        Lelang Saya
-      </DropdownItem>
-      <DropdownItem icon={AiFillTrophy} onClick={setWinner}>
-        Lelang Juara
-      </DropdownItem>
-      <DropdownItem icon={AiFillCar}>
-        <Link href={"/auctions/create"}>Jual Mobil</Link>
-      </DropdownItem>
-      <DropdownItem icon={HiCog}>
-        <Link href={"/session"}>Session (dev only!)</Link>
-      </DropdownItem>
-      <DropdownDivider />
-      <DropdownItem
-        icon={AiOutlineLogout}
-        onClick={() => signOut({ redirectTo: "/" })}
-      >
-        Sign Out
-      </DropdownItem>
+    <Dropdown
+      inline
+      label={
+        <div className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg hover:bg-white/10 transition-colors cursor-pointer">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-md">
+            <span className="text-white font-bold text-sm">
+              {user.name?.charAt(0).toUpperCase()}
+            </span>
+          </div>
+          <span className="hidden sm:block text-white font-semibold text-sm">
+            {user.name}
+          </span>
+        </div>
+      }
+      className="cursor-pointer"
+      placement="bottom"
+    >
+      <div className="px-2 py-1">
+        <DropdownItem
+          icon={HiUser}
+          onClick={setSeller}
+          className="text-gray-700 hover:bg-blue-50 rounded-lg transition-colors"
+        >
+          <span className="font-medium">Lelang Saya</span>
+        </DropdownItem>
+        <DropdownItem
+          icon={AiFillTrophy}
+          onClick={setWinner}
+          className="text-gray-700 hover:bg-blue-50 rounded-lg transition-colors"
+        >
+          <span className="font-medium">Lelang Juara</span>
+        </DropdownItem>
+        <DropdownItem
+          icon={AiFillCar}
+          className="text-gray-700 hover:bg-emerald-50 rounded-lg transition-colors"
+        >
+          <Link href={"/auctions/create"} className="font-medium">
+            Jual Mobil
+          </Link>
+        </DropdownItem>
+        <DropdownItem
+          icon={HiCog}
+          className="text-gray-700 hover:bg-purple-50 rounded-lg transition-colors text-xs"
+        >
+          <Link href={"/session"} className="font-medium">
+            Session (dev)
+          </Link>
+        </DropdownItem>
+      </div>
+      <DropdownDivider className="my-1" />
+      <div className="px-2 py-1">
+        <DropdownItem
+          icon={AiOutlineLogout}
+          onClick={() => signOut({ redirectTo: "/" })}
+          className="text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+        >
+          <span className="font-medium">Sign Out</span>
+        </DropdownItem>
+      </div>
     </Dropdown>
   );
 }

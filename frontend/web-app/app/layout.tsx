@@ -15,10 +15,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning={true}>
+      <body
+        suppressHydrationWarning={true}
+        className="bg-gradient-to-br from-gray-50 via-white to-blue-50"
+      >
         <ToastProvider />
         <NavBar />
-        <main className="container mx-auto px-5 pt-10">{children}</main>
+        <main className="w-full px-3 sm:px-5 md:px-6 lg:px-8 pt-8 sm:pt-10 md:pt-12 lg:pt-16 pb-8 sm:pb-10 md:pb-12 min-h-screen">
+          <div className="container mx-auto max-w-7xl">{children}</div>
+        </main>
       </body>
     </html>
   );

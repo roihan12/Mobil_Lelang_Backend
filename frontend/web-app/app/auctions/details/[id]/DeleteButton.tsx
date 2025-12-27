@@ -28,8 +28,12 @@ export default function DeleteButton({ id }: Props) {
   }
 
   return (
-    <Button color="failure" onClick={handleDelete} disabled={loading}>
-      {loading && <Spinner size="sm" className="mr-3" />}
+    <Button
+      onClick={handleDelete}
+      disabled={loading}
+      className="px-4 sm:px-6 py-2 sm:py-3 bg-red-700 text-white font-bold rounded-lg hover:shadow-lg hover:scale-105 transition-all text-sm sm:text-base border-0 disabled:opacity-50"
+    >
+      {loading && <Spinner size="sm" className="mr-2 sm:mr-3" />}
       Hapus Lelang
     </Button>
   );

@@ -19,16 +19,16 @@ export default function AppPagination({
     }
   };
 
-  console.log(pageCount);
-
   return (
-    <Pagination
-      currentPage={currentPage}
-      onPageChange={handlePageChange}
-      totalPages={pageCount}
-      layout="pagination"
-      showIcons={true}
-      className="text-blue-500 mb-5"
-    />
+    <div className="flex justify-center py-4 sm:py-6">
+      <Pagination
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+        totalPages={pageCount}
+        layout="pagination"
+        showIcons={true}
+        className="flex flex-wrap justify-center gap-1 sm:gap-2"
+      />
+    </div>
   );
 }

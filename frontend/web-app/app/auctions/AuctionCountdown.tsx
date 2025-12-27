@@ -10,33 +10,43 @@ const AuctionCountdown = ({ endDate }: AuctionCountdownProps) => {
   const renderer = ({ days, hours, minutes, seconds, completed }: any) => {
     if (completed) {
       return (
-        <div className="text-center py-3 bg-red-100 rounded-lg">
-          <p className="text-red-600 font-bold">Auction Ended</p>
+        <div className="text-center py-2 sm:py-3 bg-red-100 rounded-xl border border-red-200">
+          <p className="text-red-700 font-bold text-sm sm:text-base">
+            Lelang Selesai
+          </p>
         </div>
       );
     }
 
     return (
-      <div className="bg-blue-50 rounded-lg p-3">
-        <p className="text-sm text-gray-600 mb-2 font-semibold">
-          Time Remaining:
+      <div className="bg-gray-50 rounded-xl p-2 sm:p-3 border border-gray-300">
+        <p className="text-xs sm:text-sm text-gray-700 mb-1 sm:mb-2 font-semibold">
+          Sisa Waktu:
         </p>
-        <div className="grid grid-cols-4 gap-2">
-          <div className="bg-white p-2 rounded text-center">
-            <p className="font-bold text-blue-600">{days}</p>
-            <p className="text-xs text-gray-600">days</p>
+        <div className="grid grid-cols-4 gap-1 sm:gap-2">
+          <div className="bg-white rounded-lg p-1 sm:p-2 text-center border border-gray-300">
+            <p className="font-bold text-blue-700 text-xs sm:text-sm md:text-base">
+              {days}
+            </p>
+            <p className="text-xs text-gray-600">hari</p>
           </div>
-          <div className="bg-white p-2 rounded text-center">
-            <p className="font-bold text-blue-600">{hours}</p>
-            <p className="text-xs text-gray-600">hrs</p>
+          <div className="bg-white rounded-lg p-1 sm:p-2 text-center border border-gray-300">
+            <p className="font-bold text-blue-700 text-xs sm:text-sm md:text-base">
+              {hours}
+            </p>
+            <p className="text-xs text-gray-600">jam</p>
           </div>
-          <div className="bg-white p-2 rounded text-center">
-            <p className="font-bold text-blue-600">{minutes}</p>
+          <div className="bg-white rounded-lg p-1 sm:p-2 text-center border border-gray-300">
+            <p className="font-bold text-blue-700 text-xs sm:text-sm md:text-base">
+              {minutes}
+            </p>
             <p className="text-xs text-gray-600">min</p>
           </div>
-          <div className="bg-white p-2 rounded text-center">
-            <p className="font-bold text-blue-600">{seconds}</p>
-            <p className="text-xs text-gray-600">sec</p>
+          <div className="bg-white rounded-lg p-1 sm:p-2 text-center border border-gray-300">
+            <p className="font-bold text-blue-700 text-xs sm:text-sm md:text-base">
+              {seconds}
+            </p>
+            <p className="text-xs text-gray-600">det</p>
           </div>
         </div>
       </div>

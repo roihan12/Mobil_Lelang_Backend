@@ -19,16 +19,18 @@ export default function DateInput(props: Props) {
         {...field}
         selected={field.value}
         placeholderText={props.label}
-        className={`rounded-lg w-full border border-gray-600 p-2.5 flex flex-col ${
+        className={`rounded-xl w-full border-2 p-2.5 sm:p-3 flex flex-col text-sm sm:text-base transition-all focus:outline-none focus:ring-0 ${
           fieldState?.error
-            ? "bg-red-50border-red-600 text-red-600"
+            ? "bg-red-50 border-red-600 text-red-600"
             : !fieldState.invalid && fieldState.isDirty
             ? "bg-green-50 border-green-600 text-green-600"
-            : ""
+            : "bg-white border-gray-300 hover:border-blue-500"
         }`}
       />
       {fieldState?.error && (
-        <div className="text-red-500 text-sm">{fieldState?.error?.message}</div>
+        <div className="text-red-500 text-sm mt-1">
+          {fieldState?.error?.message}
+        </div>
       )}
     </div>
   );

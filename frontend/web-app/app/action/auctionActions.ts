@@ -11,7 +11,7 @@ const API_BASE_URL = "http://localhost:6001";
 export async function fetchListings(
   query: string
 ): Promise<PagedResult<Auction>> {
-  return fetchWrapper.get(`search?${query}`);
+  return fetchWrapper.get(`search${query}`);
 }
 
 export async function updateAuctionTest(): Promise<{
@@ -32,7 +32,7 @@ export async function createAuction(data: FieldValues) {
   return fetchWrapper.post(`auctions`, data);
 }
 
-export async function getDetailsViewData(id:string): Promise<Auction> {
+export async function getDetailsViewData(id: string): Promise<Auction> {
   return fetchWrapper.get(`auctions/${id}`);
 }
 

@@ -17,7 +17,7 @@ namespace LelangService.Consumers
         {
             Console.WriteLine("Consuming bid placed, " + context.Message.Id);
 
-            var lelang = await _context.lelangs.FindAsync(context.Message.LelangId);
+            var lelang = await _context.lelangs.FindAsync(Guid.Parse(context.Message.LelangId));
 
             if (lelang.CurrentHighBid == null || context.Message.BidStatus.Contains("Accepted") && context.Message.Amount > lelang.CurrentHighBid)
             {

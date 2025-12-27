@@ -46,8 +46,8 @@ export default function AuctionForm({ auction }: Props) {
         id = res.id;
       } else {
         if (auction) {
-          res = await updateAuction(id, data);
           id = auction.id;
+          res = await updateAuction(id, data);
         }
       }
 
@@ -61,7 +61,10 @@ export default function AuctionForm({ auction }: Props) {
   }
 
   return (
-    <form className="flex flex-col mt-3" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex flex-col mt-4 sm:mt-6 gap-3 sm:gap-4"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <Input
         label="Make"
         name="make"
@@ -80,7 +83,7 @@ export default function AuctionForm({ auction }: Props) {
         control={control}
         rules={{ required: "Color is requred" }}
       />
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         <Input
           label="Year"
           name="year"
@@ -98,7 +101,7 @@ export default function AuctionForm({ auction }: Props) {
 
       {pathname === "/auctions/create" && (
         <>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <Input
               label="Reserve Price (enter 0 for no reserve)"
               name="reservePrice"
@@ -125,13 +128,21 @@ export default function AuctionForm({ auction }: Props) {
         </>
       )}
 
-      <div className="flex justify-between">
-        <Button color={"alternative"} onClick={() => router.push("/")}>
-          Cancel
+      <div className="flex justify-between gap-3 sm:gap-4 mt-6 sm:mt-8">
+        <Button
+          color={"light"}
+          onClick={() => router.push("/")}
+          className="px-4 sm:px-6 py-2 sm:py-3 border-2 border-gray-300 hover:bg-gray-100 transition-all font-semibold text-sm sm:text-base"
+        >
+          Batal
         </Button>
-        <Button type="submit" disabled={!isDirty}>
+        <Button
+          type="submit"
+          disabled={!isDirty}
+          className="px-4 sm:px-6 py-2 sm:py-3 bg-blue-700 hover:shadow-lg text-white font-bold text-sm sm:text-base transition-all disabled:opacity-50"
+        >
           {isSubmitting && <Spinner size="sm" className="me-3" light />}
-          Submit
+          Kirim
         </Button>
       </div>
     </form>

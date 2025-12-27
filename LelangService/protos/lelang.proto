@@ -1,0 +1,22 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "LelangService";
+
+service GrpcLelang {
+    rpc GetLelang (GetLelangRequest) returns (GrpcLelangResponse);
+}
+
+message GetLelangRequest {
+    string id = 1;
+}
+
+message GrpcLelangModel {
+    string id = 1;
+    string seller = 2;
+    string endedAt = 3;
+    int32 reservePrice = 4;
+}
+
+message GrpcLelangResponse {
+    GrpcLelangModel lelang = 1;
+}

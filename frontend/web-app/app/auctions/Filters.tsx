@@ -27,48 +27,68 @@ export default function Filters() {
   const filterBy = useParamsStore((state) => state.filterBy);
 
   return (
-    <div className="flex justify-between items-center mb-4">
-      <div>
-        <span className="uppercase text-sm text-gray-500 mr-2">Filter by</span>
+    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6 mb-6 sm:mb-8 flex-wrap">
+      <div className="w-full sm:w-auto">
+        <span className="uppercase text-xs sm:text-sm font-bold text-gray-600 mr-2 sm:mr-3 block sm:inline mb-2 sm:mb-0">
+          Filter
+        </span>
         <ButtonGroup>
           {filterButtons.map(({ label, icon: Icon, value }) => (
             <Button
               key={value}
               onClick={() => setParams({ filterBy: value })}
-              color={`${filterBy === value ? "red" : "gray"}`}
-              className="focus:ring-0"
+              color={`${filterBy === value ? "info" : "light"}`}
+              className={`focus:ring-0 text-xs sm:text-sm ${
+                filterBy === value
+                  ? "bg-blue-700 text-white border-0"
+                  : "bg-white text-gray-700 border-gray-200"
+              }`}
             >
-              <Icon className="mr-3 h-4 w-4 " /> {label}
+              <Icon className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">{label}</span>
             </Button>
           ))}
         </ButtonGroup>
       </div>
 
-      <div>
-        <span className="uppercase text-sm text-gray-500 mr-2">Order by</span>
+      <div className="w-full sm:w-auto">
+        <span className="uppercase text-xs sm:text-sm font-bold text-gray-600 mr-2 sm:mr-3 block sm:inline mb-2 sm:mb-0">
+          Urutkan
+        </span>
         <ButtonGroup>
           {orderButtons.map(({ label, icon: Icon, value }) => (
             <Button
               key={value}
               onClick={() => setParams({ orderBy: value })}
-              color={`${orderBy === value ? "red" : "gray"}`}
-              className="focus:ring-0"
+              color={`${orderBy === value ? "info" : "light"}`}
+              className={`focus:ring-0 text-xs sm:text-sm ${
+                orderBy === value
+                  ? "bg-orange-600 text-white border-0"
+                  : "bg-white text-gray-700 border-gray-200"
+              }`}
             >
-              <Icon className="mr-3 h-4 w-4 " /> {label}
+              <Icon className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden xs:inline">{label}</span>
             </Button>
           ))}
         </ButtonGroup>
       </div>
 
-      <div>
-        <span className="uppercase text-sm text-gray-500 mr-2">Page Size</span>
+      <div className="w-full sm:w-auto">
+        <span className="uppercase text-xs sm:text-sm font-bold text-gray-600 mr-2 sm:mr-3 block sm:inline mb-2 sm:mb-0">
+          Per Halaman
+        </span>
         <ButtonGroup>
           {pageSizeOptions.map((option, index) => (
             <Button
               key={index}
               onClick={() => setParams({ pageSize: option })}
-              color={`${pageSize === option ? "red" : "gray"}`}
-              className="focus:ring-0"
+              color={`${pageSize === option ? "info" : "light"}`}
+              className={`focus:ring-0 text-xs sm:text-sm px-3 sm:px-4 ${
+                pageSize === option
+                  ? "bg-emerald-600 text-white border-0"
+                  : "bg-white text-gray-700 border-gray-200"
+              }`}
             >
               {option}
             </Button>
