@@ -40,7 +40,7 @@ export default function UserActions({ user }: Props) {
       inline
       label={
         <div className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg hover:bg-white/10 transition-colors cursor-pointer">
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-md">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-md">
             <span className="text-white font-bold text-sm">
               {user.name?.charAt(0).toUpperCase()}
             </span>

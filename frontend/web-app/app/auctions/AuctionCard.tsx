@@ -4,6 +4,7 @@ import { Auction } from "@/types";
 import AuctionCountdown from "./AuctionCountdown";
 import CardImage from "../components/CardImage";
 import Link from "next/link";
+import CurrentBid from "./CurrentBid";
 
 interface AuctionCardProps {
   car: Auction;
@@ -14,7 +15,7 @@ const AuctionCard = ({ car }: AuctionCardProps) => {
     <Link href={`/auctions/details/${car.id}`}>
       <div className="group h-full bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:border-blue-400 hover:scale-105">
         {/* Image Container */}
-        <div className="relative h-40 sm:h-48 md:h-52 bg-gradient-to-br from-gray-200 to-gray-300 overflow-hidden">
+        <div className="relative h-40 sm:h-48 md:h-52 bg-linear-to-br from-gray-200 to-gray-300 overflow-hidden">
           <CardImage imageUrl={car.imageUrl} />
           <div className="absolute top-0 right-0 bg-blue-700 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-bl-lg font-bold text-sm sm:text-base shadow-lg">
             {car.year}
@@ -60,6 +61,12 @@ const AuctionCard = ({ car }: AuctionCardProps) => {
           {/* Countdown Timer */}
           <div>
             <AuctionCountdown endDate={car.endedAt} />
+          </div>
+          <div>
+            <CurrentBid
+              amount={car.currentHighBid}
+              reservePrice={car.reservePrice}
+            />
           </div>
         </div>
       </div>

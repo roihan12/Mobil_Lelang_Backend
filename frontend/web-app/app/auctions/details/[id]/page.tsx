@@ -1,4 +1,7 @@
-import { getDetailsViewData } from "@/app/action/auctionActions";
+import {
+  getBidsForAuction,
+  getDetailsViewData,
+} from "@/app/action/auctionActions";
 import Heading from "@/app/components/Heading";
 import AuctionCountdown from "../../AuctionCountdown";
 import CardImage from "@/app/components/CardImage";
@@ -6,6 +9,7 @@ import DetailedSpecs from "./DetailedSpecs";
 import EditButton from "./EditButton";
 import { getCurrentUser } from "@/app/action/authActions";
 import DeleteButton from "./DeleteButton";
+import BidItem from "./BidItem";
 
 export default async function Details({
   params,
@@ -17,6 +21,8 @@ export default async function Details({
   const data = await getDetailsViewData(id);
 
   const user = await getCurrentUser();
+
+  const bids = await getBidsForAuction(id);
 
   return (
     <>
@@ -42,11 +48,14 @@ export default async function Details({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:mt-6">
-        <div className="lg:col-span-2 relative w-full h-64 sm:h-80 md:h-96 lg:h-full lg:min-h-[500px] bg-gray-300 rounded-2xl overflow-hidden border-2 border-gray-300 shadow-lg">
+        <div className="lg:col-span-2 relative w-full h-64 sm:h-80 md:h-96 lg:h-full lg:min-h-125 bg-gray-300 rounded-2xl overflow-hidden border-2 border-gray-300 shadow-lg">
           <CardImage imageUrl={data.imageUrl} />
         </div>
-        <div className="border-2 border-blue-200 rounded-2xl p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-purple-50 shadow-lg">
+        <div className="border-2 border-blue-200 rounded-2xl p-4 sm:p-6 bg-linear-to-br from-blue-50 to-purple-50 shadow-lg">
           <Heading title="Penawaran" />
+          {bids.map((bid) => (
+            <BidItem key={bid.id} bid={bid} />
+          ))}
         </div>
       </div>
 

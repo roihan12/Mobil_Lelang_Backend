@@ -10,9 +10,11 @@ import qs from "query-string";
 import { useParamsStore } from "@/hooks/useParamsStore";
 import { useShallow } from "zustand/shallow";
 import EmptyFilter from "../components/EmptyFilter";
+import { useAuctionStore } from "@/hooks/useAuctionStore";
 
 const Listings = () => {
-  const [data, setData] = useState<PagedResult<Auction>>();
+  const [loading, setLoading] = useState(true);
+
   const params = useParamsStore(
     useShallow((state) => ({
       pageNumber: state.pageNumber,
@@ -24,6 +26,17 @@ const Listings = () => {
       winner: state.winner,
     }))
   );
+
+  const data = useAuctionStore(
+    useShallow((state) => ({
+      auctions: state.auctions,
+      totalCount: state.totalCount,
+      pageCount: state.pageCount,
+    }))
+  );
+
+  const setData = useAuctionStore((state) => state.setData);
+
   const setParams = useParamsStore((state) => state.setParams);
   const url = qs.stringifyUrl(
     { url: "", query: params },
@@ -40,16 +53,25 @@ const Listings = () => {
     fetchListings(url)
       .then((data: PagedResult<Auction>) => {
         setData(data);
+        setLoading(false);
       })
       .catch((err: Error) => {
         setError(err.message);
       });
-  }, [url]);
+  }, [url, setData]);
 
   if (error) {
     return (
       <div className="flex items-center justify-center h-screen">
         <p className="text-lg text-red-600">Error: {error}</p>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-lg">Loading...</p>
       </div>
     );
   }
@@ -65,13 +87,13 @@ const Listings = () => {
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-blue-900 mb-6 sm:mb-8">
               Lelang Mobil
             </h1>
-            {data && data.results.length === 0 ? (
+            {data && data.auctions.length === 0 ? (
               <p className="text-gray-600 text-base sm:text-lg md:text-xl">
                 Tidak ada daftar tersedia
               </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
-                {data?.results.map((listing: Auction) => (
+                {data?.auctions.map((listing: Auction) => (
                   <AuctionCard key={listing.id} car={listing} />
                 ))}
               </div>
