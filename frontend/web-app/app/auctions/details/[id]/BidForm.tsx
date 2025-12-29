@@ -41,7 +41,7 @@ export default function BidForm({ auctionId, highBid }: Props) {
     >
       <input
         type="number"
-        className="grow px-2 py-1 focus:outline-none text-sm sm:text-base bg-transparent text-white placeholder-white/70"
+        className="grow px-2 py-1 focus:outline-none text-sm sm:text-base bg-transparent text-black placeholder-white/70"
         {...register("amount")}
         placeholder={`Masukkan penawaran minimal Rp${numberWithCommas(
           highBid + 1

@@ -25,7 +25,7 @@ export default function SignalRProvider({ children, user }: Props) {
 
   const handleAuctionFinished = useCallback(
     (finishedAuction: AuctionFinished) => {
-      const auction = getDetailsViewData(finishedAuction.auctionId);
+      const auction = getDetailsViewData(finishedAuction.lelangId);
       return toast.promise(
         auction,
         {
@@ -58,10 +58,10 @@ export default function SignalRProvider({ children, user }: Props) {
   const handleBidPlaced = useCallback(
     (bid: Bid) => {
       if (bid.bidStatus.includes("Accepted")) {
-        setCurrentPrice(bid.auctionId, bid.amount);
+        setCurrentPrice(bid.lelangId, bid.amount);
       }
 
-      if (params.id === bid.auctionId) {
+      if (params.id === bid.lelangId) {
         addBid(bid);
       }
     },
@@ -72,6 +72,7 @@ export default function SignalRProvider({ children, user }: Props) {
     if (!connection.current) {
       connection.current = new HubConnectionBuilder()
         .withUrl("http://localhost:6001/notifications")
+        .withAutomaticReconnect()
         .build();
 
       connection.current
@@ -81,14 +82,14 @@ export default function SignalRProvider({ children, user }: Props) {
     }
     connection.current.on("BidPlaced", handleBidPlaced);
 
-    connection.current.on("AuctionCreated", handleAuctionCreated);
+    connection.current.on("LelangCreated", handleAuctionCreated);
 
-    connection.current.on("AuctionFinished", handleAuctionFinished);
+    connection.current.on("LelangFinished", handleAuctionFinished);
 
     return () => {
       connection.current?.off("BidPlaced", handleBidPlaced);
-      connection.current?.off("AuctionCreated", handleAuctionCreated);
-      connection.current?.off("AuctionFinished", handleAuctionFinished);
+      connection.current?.off("LelangCreated", handleAuctionCreated);
+      connection.current?.off("LelangFinished", handleAuctionFinished);
     };
   }, [
     setCurrentPrice,
