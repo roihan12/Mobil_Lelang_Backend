@@ -92,7 +92,7 @@ export default function BidList({ user, auction }: Props) {
           </div>
         ) : (
           <div className=" flex items-center justify-center p-2 text-lg font-semibold">
-            Silahkan melakukan penawaran
+            <span className="mr-2">Penawaran Anda:</span>
             <BidForm auctionId={auction.id} highBid={highBid} />
           </div>
         )}
