@@ -47,3 +47,7 @@ export async function deleteAuction(id: string) {
 export async function getBidsForAuction(id: string): Promise<Bid[]> {
   return fetchWrapper.get(`bids/${id}`);
 }
+
+export async function placeBidforAuction(id: string, amount: number) {
+  return fetchWrapper.post(`bids?auctionId=${id}&amount=${amount}`, {});
+}

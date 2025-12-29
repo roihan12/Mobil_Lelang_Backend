@@ -9,7 +9,7 @@ import DetailedSpecs from "./DetailedSpecs";
 import EditButton from "./EditButton";
 import { getCurrentUser } from "@/app/action/authActions";
 import DeleteButton from "./DeleteButton";
-import BidItem from "./BidItem";
+import BidList from "./BidList";
 
 export default async function Details({
   params,
@@ -51,12 +51,7 @@ export default async function Details({
         <div className="lg:col-span-2 relative w-full h-64 sm:h-80 md:h-96 lg:h-full lg:min-h-125 bg-gray-300 rounded-2xl overflow-hidden border-2 border-gray-300 shadow-lg">
           <CardImage imageUrl={data.imageUrl} />
         </div>
-        <div className="border-2 border-blue-200 rounded-2xl p-4 sm:p-6 bg-linear-to-br from-blue-50 to-purple-50 shadow-lg">
-          <Heading title="Penawaran" />
-          {bids.map((bid) => (
-            <BidItem key={bid.id} bid={bid} />
-          ))}
-        </div>
+        <BidList user={user} auction={data} />
       </div>
 
       <div className="mt-6 sm:mt-8 grid grid-cols-1 rounded-2xl overflow-hidden shadow-xl">
