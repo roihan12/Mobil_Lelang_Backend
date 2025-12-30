@@ -17,7 +17,7 @@ namespace IdentityService
                 new ApiScope("lemobilApp", "Lemobil full access"),
             };
 
-        public static IEnumerable<Client> Clients =>
+        public static IEnumerable<Client> Clients(IConfiguration config) =>
             new Client[]
             {
 
@@ -37,7 +37,7 @@ namespace IdentityService
                    ClientId = "nextApp",
                    ClientName = "NextApp",
                    AllowedScopes = {"openid", "profile", "lemobilApp" },
-                   RedirectUris = {"http://localhost:3000/api/auth/callback/id-server" },
+                   RedirectUris = {config["ClientApp"] + "/api/auth/callback/id-server"},
                    ClientSecrets= new [] { new Secret("secret".Sha256()) },
                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                    RequirePkce = false,

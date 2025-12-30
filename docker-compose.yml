@@ -104,9 +104,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
+      - IssuerUri=https://id.lemobil.local
+      - ClientApp=https://app.lemobil.local
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=identity;Username=postgres;Password=mypassword
-    ports:
-      - "5001:80"
+      - VIRTUAL_HOST=id.lemobil.local
     depends_on:
       postgres:
         condition: service_healthy
@@ -119,8 +120,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
-    ports:
-      - "6001:80"
+      - ClientApp=https://app.lemobil.local
+      - VIRTUAL_HOST=api.lemobil.local
   
   bid-service:
     image: bid-service:latest
@@ -156,6 +157,34 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+
+  web-app:
+    image: web-app:latest
+    build:
+       context: .
+       dockerfile: frontend/web-app/Dockerfile
+    volumes:
+       - /var/lib/web/data
+    ports:
+       - "3000:3000"
+    environment: 
+       - AUTH_SECRET="pdxLWgvQNziNqk6GrBilLUtzx8Rd9aV4P3LCyomSbig="
+       - API_URL=http://gateway-service/
+       - ID_URL=https://id.lemobil.local
+       - ID_URL_INTERNAL=http://identity-service
+       - AUTH_URL=https://app.lemobil.local
+       - AUTH_URL_INTERNAL=http://web-app:3000
+       - VIRTUAL_HOST=app.lemobil.local
+       - VIRTUAL_PORT=3000
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./devcerts:/etc/nginx/certs
 volumes:
   postgres_data:
   mongo_data:

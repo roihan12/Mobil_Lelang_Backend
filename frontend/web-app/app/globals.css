@@ -34,19 +34,19 @@ button {
 
 /* Custom gradient backgrounds - subtle dan harmonis */
 .gradient-primary {
-  @apply bg-gradient-to-r from-blue-600 to-blue-700;
+  @apply bg-linear-to-r from-blue-600 to-blue-700;
 }
 
 .gradient-accent {
-  @apply bg-gradient-to-r from-amber-500 to-orange-600;
+  @apply bg-linear-to-r from-amber-500 to-orange-600;
 }
 
 .gradient-success {
-  @apply bg-gradient-to-r from-emerald-500 to-teal-600;
+  @apply bg-linear-to-r from-emerald-500 to-teal-600;
 }
 
 .gradient-header {
-  @apply bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700;
+  @apply bg-linear-to-r from-blue-700 via-blue-600 to-indigo-700;
 }
 
 /* Smooth shadows */
@@ -55,7 +55,7 @@ button {
 }
 
 .card-gradient {
-  @apply bg-gradient-to-br from-white to-blue-50 border border-blue-100;
+  @apply bg-linear-to-r from-white to-blue-50 border border-blue-100;
 }
 
 /* Responsive text */

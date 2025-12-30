@@ -3,7 +3,7 @@ import "./globals.css";
 import NavBar from "./nav/NavBar";
 import ToastProvider from "./providers/ToastProvider";
 import SignalRProvider from "./providers/SignalRProvider";
-import { getCurrentUser } from "./action/authActions";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Lemobil",
@@ -15,21 +15,21 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getCurrentUser();
-
   return (
     <html lang="en">
       <body
         suppressHydrationWarning={true}
         className="bg-linear-to-br from-gray-50 via-white to-blue-50"
       >
-        <ToastProvider />
-        <NavBar />
-        <main className="w-full px-3 sm:px-5 md:px-6 lg:px-8 pt-8 sm:pt-10 md:pt-12 lg:pt-16 pb-8 sm:pb-10 md:pb-12 min-h-screen">
-          <SignalRProvider user={user}>
-            <div className="container mx-auto max-w-7xl">{children}</div>
-          </SignalRProvider>
-        </main>
+        <SessionProvider>
+          <ToastProvider />
+          <NavBar />
+          <main className="w-full px-3 sm:px-5 md:px-6 lg:px-8 pt-8 sm:pt-10 md:pt-12 lg:pt-16 pb-8 sm:pb-10 md:pb-12 min-h-screen">
+            <SignalRProvider>
+              <div className="container mx-auto max-w-7xl">{children}</div>
+            </SignalRProvider>
+          </main>
+        </SessionProvider>
       </body>
     </html>
   );

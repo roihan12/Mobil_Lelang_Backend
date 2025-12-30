@@ -65,11 +65,8 @@ namespace IdentityService
                     options.Events.RaiseInformationEvents = true;
                     options.Events.RaiseFailureEvents = true;
                     options.Events.RaiseSuccessEvents = true;
+                    options.IssuerUri = builder.Configuration["IssuerUri"];
 
-                    if (builder.Environment.IsEnvironment("Docker"))
-                    {
-                        options.IssuerUri = "http://localhost:5001";
-                    }
 
                     // Use a large chunk size for diagnostic data in development where it will be redirected to a local file.
                     //if (builder.Environment.IsDevelopment())
@@ -79,7 +76,7 @@ namespace IdentityService
                 })
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients)
+                .AddInMemoryClients(Config.Clients(builder.Configuration))
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<CustomProfileService>()
                 .AddLicenseSummary();

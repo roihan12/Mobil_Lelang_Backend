@@ -1,27 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { AiOutlineCar } from "react-icons/ai";
 import Search from "./Search";
 import Logo from "./Logo";
 import LoginButton from "./LoginButton";
-import { getCurrentUser } from "../action/authActions";
 import UserActions from "./UserActions";
+import { useSession } from "next-auth/react";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const userData = await getCurrentUser();
-      setUser(userData);
-      setLoading(false);
-    };
-    fetchUser();
-  }, []);
+  const session = useSession();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -36,7 +26,7 @@ const NavBar = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 shadow-lg">
+    <header className="sticky top-0 z-50 bg-linear-to-r from-blue-700 via-blue-600 to-indigo-700 shadow-lg">
       <nav className="px-3 sm:px-4 md:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16 md:h-18">
           <Logo />
@@ -57,8 +47,8 @@ const NavBar = () => {
 
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-2 sm:gap-3">
-            {user ? (
-              <UserActions user={user} />
+            {session.data?.user ? (
+              <UserActions user={session.data.user} />
             ) : (
               <>
                 <LoginButton />
@@ -120,7 +110,7 @@ const NavBar = () => {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="block px-4 py-2 sm:py-3 text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 font-semibold rounded-lg transition-all duration-200 text-sm sm:text-base"
+                  className="block px-4 py-2 sm:py-3 text-gray-700 hover:bg-linear-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 font-semibold rounded-lg transition-all duration-200 text-sm sm:text-base"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
@@ -128,7 +118,7 @@ const NavBar = () => {
               ))}
               <div className="pt-3 border-t border-gray-200 mt-3 space-y-2">
                 <LoginButton />
-                <button className="w-full px-4 py-2 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-bold rounded-lg hover:shadow-lg transition-all duration-200 text-sm sm:text-base">
+                <button className="w-full px-4 py-2 bg-linear-to-r from-orange-600 to-orange-700 text-white font-bold rounded-lg hover:shadow-lg transition-all duration-200 text-sm sm:text-base">
                   Daftar
                 </button>
               </div>
