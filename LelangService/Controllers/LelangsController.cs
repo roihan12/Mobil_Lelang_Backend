@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Contracts;
 using LelangService.Data;
 using LelangService.DTOs;
@@ -7,7 +6,6 @@ using LelangService.Entities;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace LelangService.Controllers
 {
@@ -15,43 +13,32 @@ namespace LelangService.Controllers
     [ApiController]
     public class LelangsController : ControllerBase
     {
-        private readonly LelangDbContext _context;
         private readonly IMapper _mapper;
         private IPublishEndpoint _publishEndpoint;
+        private ILelangRepository _repo;
 
-        public LelangsController(LelangDbContext context, IMapper mapper, IPublishEndpoint publishEndpoint)
+        public LelangsController(ILelangRepository repo, IMapper mapper, IPublishEndpoint publishEndpoint)
         {
-            _context = context;
+            _repo = repo;
             _mapper = mapper;
             _publishEndpoint = publishEndpoint;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<LelangDto>>> GetLelangs(string date)
+        public async Task<ActionResult<List<LelangDto>>> GetAllLelang(string date)
         {
-            var query = _context.lelangs.OrderBy(x => x.Item.Make).AsQueryable();
-
-            if (!string.IsNullOrEmpty(date))
-            {
-
-                query = query.Where(x => x.UpdatedAt.CompareTo(DateTime.Parse(date).ToUniversalTime()) > 0);
-
-            }
-
-
-
-            return await query.ProjectTo<LelangDto>(_mapper.ConfigurationProvider).ToListAsync();
+            return await _repo.GetLelangAsync(date);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<LelangDto>> GetLelang(Guid id)
+        public async Task<ActionResult<LelangDto>> GetLelangById(Guid id)
         {
-            var lelang = await _context.lelangs.Include(x => x.Item).FirstOrDefaultAsync(x => x.Id == id);
+            var lelang = await _repo.GetLelangByIdAsync(id);
             if (lelang == null)
             {
                 return NotFound();
             }
-            return _mapper.Map<LelangDto>(lelang);
+            return lelang;
         }
 
         [Authorize]
@@ -66,13 +53,13 @@ namespace LelangService.Controllers
 
 
 
-            _context.lelangs.Add(lelang);
+            _repo.AddLelang(lelang);
 
             var newLelang = _mapper.Map<LelangDto>(lelang);
 
             await _publishEndpoint.Publish(_mapper.Map<LelangCreated>(newLelang));
 
-            var result = await _context.SaveChangesAsync() > 0;
+            var result = await _repo.SaveChangesAsync();
 
 
 
@@ -81,7 +68,7 @@ namespace LelangService.Controllers
                 return BadRequest("Could not create lelang");
             }
 
-            return CreatedAtAction(nameof(GetLelang), new { id = lelang.Id }, newLelang);
+            return CreatedAtAction(nameof(GetLelangById), new { id = lelang.Id }, newLelang);
         }
 
 
@@ -89,7 +76,7 @@ namespace LelangService.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<LelangDto>> UpdateLelang(Guid id, UpdateLelangDto lelangDto)
         {
-            var lelang = await _context.lelangs.Include(x => x.Item).FirstOrDefaultAsync(x => x.Id == id);
+            var lelang = await _repo.GetLelangEntityById(id);
             if (lelang == null)
             {
                 return NotFound();
@@ -108,7 +95,7 @@ namespace LelangService.Controllers
 
             await _publishEndpoint.Publish(_mapper.Map<LelangUpdated>(lelang));
 
-            var result = await _context.SaveChangesAsync() > 0;
+            var result = await _repo.SaveChangesAsync();
 
             if (result) return Ok();
 
@@ -120,7 +107,7 @@ namespace LelangService.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteLelang(Guid id)
         {
-            var lelang = await _context.lelangs.FindAsync(id);
+            var lelang = await _repo.GetLelangEntityById(id);
             if (lelang == null)
             {
                 return NotFound();
@@ -131,14 +118,14 @@ namespace LelangService.Controllers
                 return Forbid();
             }
 
-            _context.lelangs.Remove(lelang);
+            _repo.RemoveLelang(lelang);
 
             await _publishEndpoint.Publish<LelangDeleted>(new
             {
                 Id = lelang.Id.ToString()
             });
 
-            var result = await _context.SaveChangesAsync() > 0;
+            var result = await _repo.SaveChangesAsync();
             if (result) return Ok();
             return BadRequest("Could not delete lelang");
         }

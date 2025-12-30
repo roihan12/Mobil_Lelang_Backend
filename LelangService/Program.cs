@@ -49,6 +49,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters.NameClaimType = "username";
     });
 
+builder.Services.AddScoped<ILelangRepository, LelangRepository>();
+
 builder.Services.AddGrpc();
 
 var app = builder.Build();
@@ -73,3 +75,5 @@ catch (Exception ex)
 }
 
 app.Run();
+
+public partial class Program { }
