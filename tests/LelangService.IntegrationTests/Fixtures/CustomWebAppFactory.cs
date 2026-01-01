@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.PostgreSql;
+using WebMotions.Fake.Authentication.JwtBearer;
 
 namespace LelangService.IntegrationTests.Fixtures
 {
@@ -32,6 +33,11 @@ namespace LelangService.IntegrationTests.Fixtures
                 services.AddMassTransitTestHarness();
 
                 services.EnsureCreated<LelangDbContext>();
+
+                services.AddAuthentication(FakeJwtBearerDefaults.AuthenticationScheme).AddFakeJwtBearer(opt =>
+                {
+                    opt.BearerValueType = FakeJwtBearerBearerValueType.Jwt;
+                });
 
             });
         }
