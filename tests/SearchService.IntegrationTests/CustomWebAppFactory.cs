@@ -7,8 +7,7 @@ using MongoDB.Driver;
 using MongoDB.Entities;
 using SearchService.Models;
 
-
-namespace SearchService.Integration.Tests
+namespace SearchService.IntegrationTests
 {
     public class CustomWebAppFactory : WebApplicationFactory<Program>
     {
