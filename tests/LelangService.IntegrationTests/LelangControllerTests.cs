@@ -8,7 +8,8 @@ using System.Net.Http.Json;
 
 namespace LelangService.IntegrationTests
 {
-    public class LelangControllerTests : IClassFixture<CustomWebAppFactory>, IAsyncLifetime
+    [Collection("Shared collection")]
+    public class LelangControllerTests : IAsyncLifetime
     {
 
         private readonly CustomWebAppFactory _facotry;
