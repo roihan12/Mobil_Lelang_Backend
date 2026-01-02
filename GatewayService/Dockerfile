@@ -1,17 +1,29 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build  
 WORKDIR /app
+EXPOSE 80
 
-COPY Mobil_Lelang_Backend.sln ./
-COPY GatewayService/GatewayService.csproj ./src/GatewayService/
+COPY Mobil_Lelang_Backend.sln Mobil_Lelang_Backend.sln
+COPY LelangService/LelangService.csproj LelangService/LelangService.csproj
+COPY SearchService/SearchService.csproj SearchService/SearchService.csproj
+COPY GatewayService/GatewayService.csproj GatewayService/GatewayService.csproj
+COPY BiddingService/BiddingService.csproj BiddingService/BiddingService.csproj
+COPY NotificationService/NotificationService.csproj NotificationService/NotificationService.csproj
+COPY IdentityService/IdentityService.csproj IdentityService/IdentityService.csproj
+COPY Contracts/Contracts.csproj Contracts/Contracts.csproj
+COPY tests/LelangService.UnitTests/LelangService.UnitTests.csproj tests/LelangService.UnitTests/LelangService.UnitTests.csproj
+COPY tests/LelangService.IntegrationTests/LelangService.IntegrationTests.csproj tests/LelangService.IntegrationTests/LelangService.IntegrationTests.csproj
+COPY tests/SearchService.IntegrationTests/SearchService.IntegrationTests.csproj tests/SearchService.IntegrationTests/SearchService.IntegrationTests.csproj
 
 
-RUN dotnet restore ./src/GatewayService/GatewayService.csproj
+RUN dotnet restore Mobil_Lelang_Backend.sln
 
-COPY . .
-RUN dotnet publish ./GatewayService/GatewayService.csproj -c Release -o /app/publish
+# Copy the app folders over
+COPY GatewayService GatewayService
+COPY Contracts Contracts
+WORKDIR /app/GatewayService
+RUN dotnet publish -c Release -o /app/src/out
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-EXPOSE 80
-COPY --from=build /app/publish .
+COPY --from=build /app/src/out .
 ENTRYPOINT ["dotnet", "GatewayService.dll"]
