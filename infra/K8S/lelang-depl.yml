@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lelang-svc
+spec:
+  selector:
+    matchLabels:
+      app: lelang-svc
+  template:
+    metadata:
+      labels:
+        app: lelang-svc
+    spec:
+      containers:
+        - name: lelang-svc
+          image: lelang-service
+          imagePullPolicy: Never
+          envFrom:
+            - configMapRef:
+                name: lelang-svc-config
+          ports:
+            - containerPort: 80
+              name: web
+            - containerPort: 7777
+              name: grpc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lelang-clusterip
+spec:
+  type: ClusterIP
+  selector:
+    app: lelang-svc
+  ports:
+    - port: 80
+      targetPort: 80
+      name: web
+    - port: 7777
+      targetPort: 7777
+      name: grpc
